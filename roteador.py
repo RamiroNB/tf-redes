@@ -8,131 +8,129 @@ from dotenv import load_dotenv  # type: ignore
 load_dotenv()
 
 
-class Roteador:
+class Router:
     def __init__(self):
         self.ip = os.getenv("ROUTER_IP")
         neighbors = os.getenv("NEIGHBORS")
-        self.vizinhos = neighbors.split(",") if neighbors else []
-        self.tabela_roteamento = self.inicializar_tabela()
-        self.bloqueio = threading.Lock()
-        self.ultima_atualizacao = {vizinho: time.time() for vizinho in self.vizinhos}
+        self.neighbors = neighbors.split(",") if neighbors else []
+        self.routing_table = self.initialize_table()
+        self.lock = threading.Lock()
+        self.last_update = {neighbor: time.time() for neighbor in self.neighbors}
 
-    def inicializar_tabela(self):
-        tabela = {}
-        for vizinho in self.vizinhos:
-            tabela[vizinho] = (1, vizinho)
-        return tabela
+    def initialize_table(self):
+        table = {}
+        for neighbor in self.neighbors:
+            table[neighbor] = (1, neighbor)
+        return table
 
-    def imprimir_tabela(self):
-        with self.bloqueio:
-            print(f"\nTabela de roteamento para {self.ip}:")
-            for destino, (metrica, saida) in self.tabela_roteamento.items():
-                print(f"IP: {destino}, Métrica: {metrica}, Saída: {saida}")
+    def print_table(self):
+        with self.lock:
+            print(f"\nRouting table for {self.ip}:")
+            for destination, (metric, output) in self.routing_table.items():
+                print(f"IP: {destination}, Metric: {metric}, Output: {output}")
 
-    def enviar_mensagem(self, destino, mensagem):
+    def send_message(self, destination, message):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.sendto(mensagem.encode(), (destino, 9000))
+            sock.sendto(message.encode(), (destination, 9000))
 
-    def criar_mensagem_anuncio(self):
-        with self.bloqueio:
-            pares = [
-                f"@{destino}-{metrica}"
-                for destino, (metrica, _) in self.tabela_roteamento.items()
+    def create_announcement_message(self):
+        with self.lock:
+            pairs = [
+                f"@{destination}-{metric}"
+                for destination, (metric, _) in self.routing_table.items()
             ]
-        return "".join(pares)
+        return "".join(pairs)
 
-    def enviar_mensagem_anuncio_rotas(self):
-        mensagem = self.criar_mensagem_anuncio()
-        for vizinho in self.vizinhos:
-            self.enviar_mensagem(vizinho, mensagem)
+    def send_route_announcement_message(self):
+        message = self.create_announcement_message()
+        for neighbor in self.neighbors:
+            self.send_message(neighbor, message)
 
-    def receber_mensagem(self):
+    def receive_message(self):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.bind((self.ip, 9000))
             while True:
-                dados, _ = sock.recvfrom(1024)
-                self.processar_mensagem(dados.decode())
+                data, _ = sock.recvfrom(1024)
+                self.process_message(data.decode())
 
-    def processar_mensagem(self, mensagem):
-        if mensagem.startswith("!"):
-            self.processar_mensagem_texto(mensagem)
+    def process_message(self, message):
+        if message.startswith("!"):
+            self.process_text_message(message)
         else:
-            self.atualizar_tabela_roteamento(mensagem)
+            self.update_routing_table(message)
 
-    def atualizar_tabela_roteamento(self, mensagem):
-        with self.bloqueio:
-            for entrada in mensagem.split("@")[1:]:
-                destino, metrica = entrada.split("-")
-                metrica = int(metrica)
+    def update_routing_table(self, message):
+        with self.lock:
+            for entry in message.split("@")[1:]:
+                destination, metric = entry.split("-")
+                metric = int(metric)
                 if (
-                    destino not in self.tabela_roteamento
-                    or metrica < self.tabela_roteamento[destino][0]
+                    destination not in self.routing_table
+                    or metric < self.routing_table[destination][0]
                 ):
-                    self.tabela_roteamento[destino] = (metrica + 1, destino)
-                    self.enviar_mensagem_anuncio_rotas()
+                    self.routing_table[destination] = (metric + 1, destination)
+                    self.send_route_announcement_message()
 
-            # Atualizar última atualização de rotas recebidas dos vizinhos
-            for vizinho in self.vizinhos:
-                if vizinho in mensagem:
-                    self.ultima_atualizacao[vizinho] = time.time()
+            # Update last update of routes received from neighbors
+            for neighbor in self.neighbors:
+                if neighbor in message:
+                    self.last_update[neighbor] = time.time()
 
-    def enviar_mensagem_texto(self, ip_destino, mensagem):
-        texto = f"!{self.ip};{ip_destino};{mensagem}"
-        prox_roteador = self.tabela_roteamento.get(ip_destino, (None, None))[1]
+    def send_text_message(self, destination_ip, message):
+        text = f"!{self.ip};{destination_ip};{message}"
+        next_router = self.routing_table.get(destination_ip, (None, None))[1]
 
-        if prox_roteador:
-            self.enviar_mensagem(prox_roteador, texto)
+        if next_router:
+            self.send_message(next_router, text)
         else:
-            print(f"Rota para {ip_destino} não encontrada.")
+            print(f"Route to {destination_ip} not found.")
 
-    def processar_mensagem_texto(self, mensagem):
-        partes = mensagem[1:].split(";")
-        ip_origem, ip_destino, texto = partes
+    def process_text_message(self, message):
+        parts = message[1:].split(";")
+        source_ip, destination_ip, text = parts
 
-        if self.ip == ip_destino:
-            print(f"Mensagem recebida de {ip_origem} para {ip_destino}: {texto}")
+        if self.ip == destination_ip:
+            print(f"Message received from {source_ip} to {destination_ip}: {text}")
         else:
-            print(f"Repasse da mensagem de {ip_origem} para {ip_destino}")
-            self.enviar_mensagem_texto(ip_destino, texto)
+            print(f"Forwarding message from {source_ip} to {destination_ip}")
+            self.send_text_message(destination_ip, text)
 
-    def verificar_roteadores_inativos(self):
+    def check_inactive_routers(self):
         while True:
             time.sleep(5)
-            with self.bloqueio:
-                tempo_atual = time.time()
-                for vizinho, ultimo_tempo in list(self.ultima_atualizacao.items()):
-                    if tempo_atual - ultimo_tempo > 35:
-                        print(
-                            f"Roteador inativo detectado: {vizinho}. Removendo rotas."
-                        )
-                        del self.tabela_roteamento[vizinho]
-                        self.remover_rotas_por_saida(vizinho)
+            with self.lock:
+                current_time = time.time()
+                for neighbor, last_time in list(self.last_update.items()):
+                    if current_time - last_time > 35:
+                        print(f"Inactive router detected: {neighbor}. Removing routes.")
+                        del self.routing_table[neighbor]
+                        self.remove_routes_by_output(neighbor)
 
-    def remover_rotas_por_saida(self, vizinho):
-        rotas_removidas = [
-            destino
-            for destino, (_, saida) in self.tabela_roteamento.items()
-            if saida == vizinho
+    def remove_routes_by_output(self, neighbor):
+        removed_routes = [
+            destination
+            for destination, (_, output) in self.routing_table.items()
+            if output == neighbor
         ]
-        for destino in rotas_removidas:
-            del self.tabela_roteamento[destino]
+        for destination in removed_routes:
+            del self.routing_table[destination]
 
-    def enviar_periodicamente(self):
+    def send_periodically(self):
         while True:
-            self.enviar_mensagem_anuncio_rotas()
-            self.imprimir_tabela()
+            self.send_route_announcement_message()
+            self.print_table()
             time.sleep(15)
 
-    def iniciar(self):
-        threading.Thread(target=self.enviar_periodicamente).start()
-        threading.Thread(target=self.receber_mensagem).start()
-        threading.Thread(target=self.verificar_roteadores_inativos).start()
+    def start(self):
+        threading.Thread(target=self.send_periodically).start()
+        threading.Thread(target=self.receive_message).start()
+        threading.Thread(target=self.check_inactive_routers).start()
 
 
 if __name__ == "__main__":
-    roteador = Roteador()
-    roteador.iniciar()
+    router = Router()
+    router.start()
 
-    # Simulação de envio de mensagem de texto após um tempo
+    # Simulate sending a text message after some time
     time.sleep(5)
-    roteador.enviar_mensagem_texto("192.168.1.3", "Oi tudo bem?")
+    router.send_text_message("192.168.1.3", "Hi, how are you?")
