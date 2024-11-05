@@ -30,10 +30,11 @@ class Router:
                 print(f"IP: {destination}, Metric: {metric}, Output: {output}")
 
     def send_message(self, destination, message):
+        print(f"Sending message to {destination}: {message}")
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
             sock.sendto(message.encode(), (destination, 9000))
 
-    def create_announcement_message(self):
+    def create_message(self):
         with self.lock:
             pairs = [
                 f"@{destination}-{metric}"
@@ -41,8 +42,8 @@ class Router:
             ]
         return "".join(pairs)
 
-    def send_route_announcement_message(self):
-        message = self.create_announcement_message()
+    def send_route_message(self):
+        message = self.create_message()
         for neighbor in self.neighbors:
             self.send_message(neighbor, message)
 
@@ -55,8 +56,10 @@ class Router:
 
     def process_message(self, message):
         if message.startswith("!"):
+            print("Processing text message")
             self.process_text_message(message)
         else:
+            print("Processing route message")
             self.update_routing_table(message)
 
     def update_routing_table(self, message):
@@ -69,7 +72,7 @@ class Router:
                     or metric < self.routing_table[destination][0]
                 ):
                     self.routing_table[destination] = (metric + 1, destination)
-                    self.send_route_announcement_message()
+                    self.send_route_message()
 
             # Update last update of routes received from neighbors
             for neighbor in self.neighbors:
@@ -102,9 +105,14 @@ class Router:
                 current_time = time.time()
                 for neighbor, last_time in list(self.last_update.items()):
                     if current_time - last_time > 35:
-                        print(f"Inactive router detected: {neighbor}. Removing routes.")
-                        del self.routing_table[neighbor]
-                        self.remove_routes_by_output(neighbor)
+                        if neighbor in self.routing_table:
+                            print(
+                                f"Inactive router detected: {neighbor}. Removing routes."
+                            )
+                            del self.routing_table[neighbor]
+                            self.remove_routes_by_output(neighbor)
+                        # Remove the neighbor from last_update to prevent repeated checks
+                        del self.last_update[neighbor]
 
     def remove_routes_by_output(self, neighbor):
         removed_routes = [
@@ -117,7 +125,7 @@ class Router:
 
     def send_periodically(self):
         while True:
-            self.send_route_announcement_message()
+            self.send_route_message()
             self.print_table()
             time.sleep(15)
 
@@ -133,4 +141,8 @@ if __name__ == "__main__":
 
     # Simulate sending a text message after some time
     time.sleep(5)
-    router.send_text_message("192.168.1.3", "Hi, how are you?")
+    for neighbor in router.neighbors:
+        print("Sending Text Message")
+        router.send_text_message(
+            neighbor, "Hi, how are you? Here it is working. (Ramiro & Vinicius)"
+        )
