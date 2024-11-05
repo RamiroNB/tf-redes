@@ -55,15 +55,18 @@ class Router:
             self.send_message(neighbor, message)
         print("Route announcement sent to all neighbors.")
 
-    def receive_message(self, sock):
-        try:
-            data, _ = sock.recvfrom(1024)
-            print(f"Received message: {data.decode()}")
-            self.process_message(data.decode())
-        except socket.timeout:
-            pass
-        except OSError as e:
-            print(f"Error receiving message: {e}")
+    def receive_messages(self):
+        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
+            sock.bind((self.ip, 9000))
+            sock.settimeout(1)  # Set a timeout for non-blocking receive
+            while True:
+                try:
+                    data, _ = sock.recvfrom(1024)
+                    self.process_message(data.decode())
+                except socket.timeout:
+                    continue
+                except OSError as e:
+                    print(f"Error receiving message: {e}")
 
     def process_message(self, message):
         if message.startswith("!"):
@@ -135,14 +138,16 @@ class Router:
             self.send_route_announcement_message()
 
     def check_inactive_routers(self):
-        current_time = time.time()
-        for neighbor, last_time in list(self.last_update.items()):
-            if current_time - last_time > 35:
-                if neighbor in self.routing_table:
-                    print(f"Inactive router detected: {neighbor}. Removing routes.")
-                    del self.routing_table[neighbor]
-                    self.remove_routes_by_output(neighbor)
-                del self.last_update[neighbor]
+        while True:
+            time.sleep(5)
+            current_time = time.time()
+            for neighbor, last_time in list(self.last_update.items()):
+                if current_time - last_time > 35:
+                    if neighbor in self.routing_table:
+                        print(f"Inactive router detected: {neighbor}. Removing routes.")
+                        del self.routing_table[neighbor]
+                        self.remove_routes_by_output(neighbor)
+                    del self.last_update[neighbor]
 
     def remove_routes_by_output(self, neighbor):
         removed_routes = [
@@ -160,26 +165,11 @@ class Router:
             self.send_message(neighbor, announcement)
         print("Router announcement sent to all neighbors.")
 
-    def run(self):
-        with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
-            sock.bind((self.ip, 9000))
-            sock.settimeout(1)  # Set a timeout for non-blocking receive
-            last_announcement_time = time.time()
-
-            while True:
-                current_time = time.time()
-
-                # Send route announcements every 15 seconds
-                if current_time - last_announcement_time >= 15:
-                    self.send_route_announcement_message()
-                    self.print_table()
-                    last_announcement_time = current_time
-
-                # Check for inactive routers
-                self.check_inactive_routers()
-
-                # Receive and process messages
-                self.receive_message(sock)
+    def send_periodic_announcements(self):
+        while True:
+            time.sleep(15)
+            self.send_route_announcement_message()
+            self.print_table()
 
     def user_input_thread(self):
         while True:
@@ -190,9 +180,10 @@ class Router:
 
 if __name__ == "__main__":
     router = Router()
-    # Start the router operations in a separate thread
-    router_thread = threading.Thread(target=router.run)
-    router_thread.start()
+    # Start the router operations in separate threads
+    threading.Thread(target=router.receive_messages, daemon=True).start()
+    threading.Thread(target=router.send_periodic_announcements, daemon=True).start()
+    threading.Thread(target=router.check_inactive_routers, daemon=True).start()
 
     # Start the user input handling in the main thread
     router.user_input_thread()
