@@ -31,8 +31,11 @@ class Router:
 
     def print_table(self):
         print(f"\nRouting table for {self.ip}:")
+        print("--------------------------------")
+
         for destination, (metric, output) in self.routing_table.items():
             print(f"IP: {destination}, Metric: {metric}, Output: {output}")
+        print("--------------------------------")
 
     def send_message(self, destination, message):
         try:
@@ -89,6 +92,8 @@ class Router:
             ):
                 self.routing_table[destination] = (metric + 1, destination)
                 updated = True
+
+                print("--------------------------------")
                 print(
                     f"Updated route to {destination} with metric {metric + 1} via {destination}"
                 )
