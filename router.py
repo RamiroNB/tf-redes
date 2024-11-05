@@ -184,6 +184,6 @@ if __name__ == "__main__":
     threading.Thread(target=router.receive_messages, daemon=True).start()
     threading.Thread(target=router.send_periodic_announcements, daemon=True).start()
     threading.Thread(target=router.check_inactive_routers, daemon=True).start()
-
+    threading.Thread(target=router.user_input_thread, daemon=True).start()
     # Start the user input handling in the main thread
-    router.user_input_thread()
+    # router.user_input_thread()
