@@ -177,13 +177,18 @@ class Router:
             message = input("Enter the message: ")
             self.send_text_message(destination_ip, message)
 
+    def receive_and_send(self):
+        self.send_periodic_announcements
+        self.receive_messages
+
 
 if __name__ == "__main__":
     router = Router()
     # Start the router operations in separate threads
-    threading.Thread(target=router.receive_messages, daemon=True).start()
-    threading.Thread(target=router.send_periodic_announcements, daemon=True).start()
+    threading.Thread(target=router.receive_and_send, daemon=True).start()
     threading.Thread(target=router.check_inactive_routers, daemon=True).start()
-    threading.Thread(target=router.user_input_thread, daemon=True).start()
     # Start the user input handling in the main thread
-    # router.user_input_thread()
+    router.user_input_thread()
+
+
+#  !192.168.1.184;192.168.1.43;OI,VINI AQUI!
