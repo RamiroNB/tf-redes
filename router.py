@@ -1,5 +1,6 @@
 import os
 import socket
+import threading
 import time
 
 from dotenv import load_dotenv  # Ensure you have python-dotenv installed
@@ -157,7 +158,7 @@ class Router:
         announcement = f"*{self.ip}"
         for neighbor in self.neighbors:
             self.send_message(neighbor, announcement)
-        print("\nRouter announcement sent to all neighbors.")
+        print("Router announcement sent to all neighbors.")
 
     def run(self):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -173,9 +174,6 @@ class Router:
                     self.send_route_announcement_message()
                     self.print_table()
                     last_announcement_time = current_time
-                    for neighbor in self.neighbors:
-                        print("sending text message ")
-                        self.send_text_message(neighbor, "Hello (Ramiro and Vinicius)")
 
                 # Check for inactive routers
                 self.check_inactive_routers()
@@ -183,7 +181,18 @@ class Router:
                 # Receive and process messages
                 self.receive_message(sock)
 
+    def user_input_thread(self):
+        while True:
+            destination_ip = input("Enter the destination IP: ")
+            message = input("Enter the message: ")
+            self.send_text_message(destination_ip, message)
+
 
 if __name__ == "__main__":
     router = Router()
-    router.run()
+    # Start the router operations in a separate thread
+    router_thread = threading.Thread(target=router.run)
+    router_thread.start()
+
+    # Start the user input handling in the main thread
+    router.user_input_thread()
