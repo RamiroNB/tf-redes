@@ -1,11 +1,39 @@
+import logging
+import logging.handlers
 import os
 import socket
 import threading
 import time
+from queue import Queue
 
-from dotenv import load_dotenv  # Ensure you have python-dotenv installed
+from dotenv import load_dotenv
 
-load_dotenv()  # Load environment variables from a .env file
+load_dotenv()
+
+# Configure logging
+log_queue = Queue()
+queue_handler = logging.handlers.QueueHandler(log_queue)
+logger = logging.getLogger()
+logger.setLevel(logging.INFO)
+logger.addHandler(queue_handler)
+
+file_handler = logging.FileHandler("router.log", mode="w")
+file_handler.setLevel(logging.INFO)
+
+formatter = logging.Formatter("%(asctime)s - %(levelname)s - %(message)s")
+file_handler.setFormatter(formatter)
+
+listener = logging.handlers.QueueListener(log_queue, file_handler)
+listener.start()
+
+
+def log_message(message, level="info"):
+    if level == "info":
+        logger.info(message)
+    elif level == "warning":
+        logger.warning(message)
+    elif level == "error":
+        logger.error(message)
 
 
 class Router:
@@ -16,8 +44,8 @@ class Router:
         self.routing_table = self.initialize_table()
         self.last_update = {neighbor: time.time() for neighbor in self.neighbors}
 
-        print(f"Router initialized with IP: {self.ip}")
-        print(f"Neighbors: {self.neighbors}")
+        log_message(f"Router initialized with IP: {self.ip}")
+        log_message(f"Neighbors: {self.neighbors}")
 
         # Announce the router to its neighbors
         self.announce_router()
@@ -26,24 +54,24 @@ class Router:
         table = {}
         for neighbor in self.neighbors:
             table[neighbor] = (1, neighbor)
-        print("Initial routing table created.")
+        log_message("Initial routing table created.")
         return table
 
     def print_table(self):
-        print(f"\nRouting table for {self.ip}:")
-        print("--------------------------------")
+        log_message(f"\nRouting table for {self.ip}:")
+        log_message("--------------------------------")
 
         for destination, (metric, output) in self.routing_table.items():
-            print(f"IP: {destination}, Metric: {metric}, Output: {output}")
-        print("--------------------------------")
+            log_message(f"IP: {destination}, Metric: {metric}, Output: {output}")
+        log_message("--------------------------------")
 
     def send_message(self, destination, message):
         try:
             with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
                 sock.sendto(message.encode(), (destination, 9000))
-            print(f"Sent message to {destination}: {message}")
+            log_message(f"Sent message to {destination}: {message}")
         except OSError as e:
-            print(f"Error sending message to {destination}: {e}")
+            log_message(f"Error sending message to {destination}: {e}", level="error")
 
     def create_announcement_message(self):
         pairs = [
@@ -56,7 +84,7 @@ class Router:
         message = self.create_announcement_message()
         for neighbor in self.neighbors:
             self.send_message(neighbor, message)
-        print("Route announcement sent to all neighbors.")
+        log_message("Route announcement sent to all neighbors.")
 
     def receive_messages(self):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -69,7 +97,7 @@ class Router:
                 except socket.timeout:
                     continue
                 except OSError as e:
-                    print(f"Error receiving message: {e}")
+                    log_message(f"Error receiving message: {e}", level="error")
 
     def process_message(self, message):
         if message.startswith("!"):
@@ -93,8 +121,8 @@ class Router:
                 self.routing_table[destination] = (metric + 1, destination)
                 updated = True
 
-                print("--------------------------------")
-                print(
+                log_message("--------------------------------")
+                log_message(
                     f"Updated route to {destination} with metric {metric + 1} via {destination}"
                 )
 
@@ -106,9 +134,10 @@ class Router:
             ):
                 del self.routing_table[destination]
                 updated = True
-                print(f"Removed route to {destination} as it is no longer advertised.")
+                log_message(
+                    f"Removed route to {destination} as it is no longer advertised."
+                )
 
-        # Update last update of routes received from neighbors
         for neighbor in self.neighbors:
             if neighbor in message:
                 self.last_update[neighbor] = time.time()
@@ -123,23 +152,25 @@ class Router:
         if next_router:
             self.send_message(next_router, text)
         else:
-            print(f"Route to {destination_ip} not found.")
+            log_message(f"Route to {destination_ip} not found.", level="warning")
 
     def process_text_message(self, message):
         parts = message[1:].split(";")
         source_ip, destination_ip, text = parts
 
         if self.ip == destination_ip:
-            print(f"Message received from {source_ip} to {destination_ip}: {text}")
+            log_message(
+                f"Message received from {source_ip} to {destination_ip}: {text}"
+            )
         else:
-            print(f"Forwarding message from {source_ip} to {destination_ip}")
+            log_message(f"Forwarding message from {source_ip} to {destination_ip}")
             self.send_text_message(destination_ip, text)
 
     def process_router_announcement(self, message):
         new_router_ip = message[1:]
         if new_router_ip not in self.routing_table:
             self.routing_table[new_router_ip] = (1, new_router_ip)
-            print(f"Added new router {new_router_ip} to routing table.")
+            log_message(f"Added new router {new_router_ip} to routing table.")
             self.send_route_announcement_message()
 
     def check_inactive_routers(self):
@@ -149,7 +180,9 @@ class Router:
             for neighbor, last_time in list(self.last_update.items()):
                 if current_time - last_time > 35:
                     if neighbor in self.routing_table:
-                        print(f"Inactive router detected: {neighbor}. Removing routes.")
+                        log_message(
+                            f"Inactive router detected: {neighbor}. Removing routes."
+                        )
                         del self.routing_table[neighbor]
                         self.remove_routes_by_output(neighbor)
                     del self.last_update[neighbor]
@@ -162,13 +195,15 @@ class Router:
         ]
         for destination in removed_routes:
             del self.routing_table[destination]
-            print(f"Removed route to {destination} via inactive router {neighbor}.")
+            log_message(
+                f"Removed route to {destination} via inactive router {neighbor}."
+            )
 
     def announce_router(self):
         announcement = f"*{self.ip}"
         for neighbor in self.neighbors:
             self.send_message(neighbor, announcement)
-        print("Router announcement sent to all neighbors.")
+        log_message("Router announcement sent to all neighbors.")
 
     def send_periodic_announcements(self):
         while True:
@@ -188,5 +223,4 @@ if __name__ == "__main__":
     threading.Thread(target=router.receive_messages, daemon=True).start()
     threading.Thread(target=router.send_periodic_announcements, daemon=True).start()
     threading.Thread(target=router.check_inactive_routers, daemon=True).start()
-    # Start the user input handling in the main thread
     router.user_input_thread()
