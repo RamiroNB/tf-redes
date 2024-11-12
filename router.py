@@ -36,7 +36,6 @@ def log_message(message, level="info"):
         logger.error(message)
 
 
-# TODO SCAPE;
 class Router:
     def __init__(self):
         self.ip = os.getenv("ROUTER_IP")
@@ -116,7 +115,6 @@ class Router:
             metric = int(metric)
             current_destinations.add(destination)
 
-            # Ignore if the destination is the router's own IP
             if destination == self.ip:
                 continue
 
@@ -163,6 +161,9 @@ class Router:
     def process_text_message(self, message):
         parts = message[1:].split(";")
         source_ip = parts[0]
+        if source_ip in self.neighbors:
+            self.last_update[source_ip] = time.time()
+
         destination_ip = parts[1]
         text = parts[2]
 
