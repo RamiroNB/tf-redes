@@ -36,6 +36,7 @@ def log_message(message, level="info"):
         logger.error(message)
 
 
+# TODO SCAPE;
 class Router:
     def __init__(self):
         self.ip = os.getenv("ROUTER_IP")
@@ -58,8 +59,8 @@ class Router:
         return table
 
     def print_table(self):
-        log_message(f"\nRouting table for {self.ip}:")
-        log_message("--------------------------------")
+        log_message(f"----ROUTING TABLE FOR: {self.ip}:")
+        log_message("-------------------------------")
 
         for destination, (metric, output) in self.routing_table.items():
             log_message(f"IP: {destination}, Metric: {metric}, Output: {output}")
@@ -84,7 +85,7 @@ class Router:
         message = self.create_announcement_message()
         for neighbor in self.neighbors:
             self.send_message(neighbor, message)
-        log_message("Route announcement sent to all neighbors.")
+        log_message("Route announcement SENT TO ALL NEIGHBORS.")
 
     def receive_messages(self):
         with socket.socket(socket.AF_INET, socket.SOCK_DGRAM) as sock:
@@ -114,6 +115,11 @@ class Router:
             destination, metric = entry.split("-")
             metric = int(metric)
             current_destinations.add(destination)
+
+            # Ignore if the destination is the router's own IP
+            if destination == self.ip:
+                continue
+
             if (
                 destination not in self.routing_table
                 or metric < self.routing_table[destination][0]
@@ -156,11 +162,13 @@ class Router:
 
     def process_text_message(self, message):
         parts = message[1:].split(";")
-        source_ip, destination_ip, text = parts
+        source_ip = parts[0]
+        destination_ip = parts[1]
+        text = parts[2]
 
         if self.ip == destination_ip:
             log_message(
-                f"Message received from {source_ip} to {destination_ip}: {text}"
+                f"MESSAGE RECEIVED FROM {source_ip} TO {destination_ip}: {text}"
             )
         else:
             log_message(f"Forwarding message from {source_ip} to {destination_ip}")
