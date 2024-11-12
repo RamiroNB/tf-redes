@@ -184,7 +184,8 @@ class Router:
 
         if self.ip == destination_ip:
             log_message(
-                f"MESSAGE RECEIVED FROM {source_ip} TO {destination_ip}: {text}"
+                f"MESSAGE RECEIVED FROM {source_ip} TO {destination_ip}: {text}",
+                level="warning",
             )
         else:
             log_message(f"Forwarding message from {source_ip} to {destination_ip}")
