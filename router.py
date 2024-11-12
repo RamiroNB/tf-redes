@@ -78,7 +78,8 @@ class Router:
             f"@{destination}-{metric}"
             for destination, (metric, _) in self.routing_table.items()
         ]
-        return "".join(pairs)
+        # Ensure the message is not empty
+        return "".join(pairs) if pairs else "@"
 
     def send_route_announcement_message(self):
         message = self.create_announcement_message()
@@ -92,14 +93,23 @@ class Router:
             sock.settimeout(1)  # Set a timeout for non-blocking receive
             while True:
                 try:
-                    data, _ = sock.recvfrom(1024)
+                    data, addr = sock.recvfrom(1024)
+                    sender_ip = addr[0]
+                    log_message(f"Received message from {sender_ip}: {data.decode()}")
+                    if sender_ip in self.neighbors:
+                        self.last_update[sender_ip] = time.time()
+                        log_message(
+                            f"Updated last update time for neighbor: {sender_ip}"
+                        )
                     self.process_message(data.decode())
                 except socket.timeout:
+                    log_message("Socket timeout, no message received.")
                     continue
                 except OSError as e:
                     log_message(f"Error receiving message: {e}", level="error")
 
     def process_message(self, message):
+        log_message(f"Processing message: {message}")
         if message.startswith("!"):
             self.process_text_message(message)
         elif message.startswith("*"):
@@ -108,9 +118,12 @@ class Router:
             self.update_routing_table(message)
 
     def update_routing_table(self, message):
+        log_message(f"Updating routing table with message: {message}")
         updated = False
         current_destinations = set()
         for entry in message.split("@")[1:]:
+            if not entry:
+                continue
             destination, metric = entry.split("-")
             metric = int(metric)
             current_destinations.add(destination)
@@ -145,6 +158,7 @@ class Router:
         for neighbor in self.neighbors:
             if neighbor in message:
                 self.last_update[neighbor] = time.time()
+                log_message(f"Updated last update time for neighbor: {neighbor}")
 
         if updated:
             self.send_route_announcement_message()
@@ -163,6 +177,7 @@ class Router:
         source_ip = parts[0]
         if source_ip in self.neighbors:
             self.last_update[source_ip] = time.time()
+            log_message(f"Updated last update time for source IP: {source_ip}")
 
         destination_ip = parts[1]
         text = parts[2]
@@ -177,6 +192,7 @@ class Router:
 
     def process_router_announcement(self, message):
         new_router_ip = message[1:]
+        log_message(f"Processing router announcement from: {new_router_ip}")
         if new_router_ip not in self.routing_table:
             self.routing_table[new_router_ip] = (1, new_router_ip)
             log_message(f"Added new router {new_router_ip} to routing table.")

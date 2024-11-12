@@ -1,68 +1,292 @@
-2024-11-11 22:30:56,356 - INFO - Initial routing table created.
-2024-11-11 22:30:56,356 - INFO - Router initialized with IP: 192.168.218.27
-2024-11-11 22:30:56,356 - INFO - Neighbors: ['192.168.218.179']
-2024-11-11 22:30:56,356 - INFO - Sent message to 192.168.218.179: *192.168.218.27
-2024-11-11 22:30:56,356 - INFO - Router announcement sent to all neighbors.
-2024-11-11 22:30:58,670 - INFO - --------------------------------
-2024-11-11 22:30:58,670 - INFO - Updated route to 192.168.218.211 with metric 2 via 192.168.218.211
-2024-11-11 22:30:58,670 - INFO - Sent message to 192.168.218.179: @192.168.218.179-1@192.168.218.211-2
-2024-11-11 22:30:58,670 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:00,743 - INFO - --------------------------------
-2024-11-11 22:31:00,743 - INFO - Updated route to 192.168.218.211 with metric 2 via 192.168.218.211
-2024-11-11 22:31:00,743 - INFO - Sent message to 192.168.218.179: @192.168.218.179-1@192.168.218.211-2
-2024-11-11 22:31:00,743 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:11,369 - INFO - Sent message to 192.168.218.179: @192.168.218.179-1@192.168.218.211-2
-2024-11-11 22:31:11,369 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:11,369 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:31:11,369 - INFO - -------------------------------
-2024-11-11 22:31:11,369 - INFO - IP: 192.168.218.179, Metric: 1, Output: 192.168.218.179
-2024-11-11 22:31:11,370 - INFO - IP: 192.168.218.211, Metric: 2, Output: 192.168.218.211
-2024-11-11 22:31:11,370 - INFO - --------------------------------
-2024-11-11 22:31:12,609 - INFO - Removed route to 192.168.218.211 as it is no longer advertised.
-2024-11-11 22:31:12,609 - INFO - Sent message to 192.168.218.179: @192.168.218.179-1
-2024-11-11 22:31:12,609 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:26,377 - INFO - Sent message to 192.168.218.179: @192.168.218.179-1
-2024-11-11 22:31:26,377 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:26,378 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:31:26,378 - INFO - -------------------------------
-2024-11-11 22:31:26,378 - INFO - IP: 192.168.218.179, Metric: 1, Output: 192.168.218.179
-2024-11-11 22:31:26,378 - INFO - --------------------------------
-2024-11-11 22:31:31,390 - INFO - Inactive router detected: 192.168.218.179. Removing routes.
-2024-11-11 22:31:40,860 - WARNING - Route to 192.168.218.27 not found.
-2024-11-11 22:31:41,393 - INFO - Sent message to 192.168.218.179: 
-2024-11-11 22:31:41,393 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:41,393 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:31:41,393 - INFO - -------------------------------
-2024-11-11 22:31:41,393 - INFO - --------------------------------
-2024-11-11 22:31:53,336 - WARNING - Route to 192.168.218.27 not found.
-2024-11-11 22:31:56,408 - INFO - Sent message to 192.168.218.179: 
-2024-11-11 22:31:56,408 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:31:56,408 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:31:56,408 - INFO - -------------------------------
-2024-11-11 22:31:56,408 - INFO - --------------------------------
-2024-11-11 22:32:00,277 - WARNING - Route to 192.168.218.27 not found.
-2024-11-11 22:32:11,423 - INFO - Sent message to 192.168.218.179: 
-2024-11-11 22:32:11,423 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:32:11,423 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:32:11,423 - INFO - -------------------------------
-2024-11-11 22:32:11,423 - INFO - --------------------------------
-2024-11-11 22:32:26,439 - INFO - Sent message to 192.168.218.179: 
-2024-11-11 22:32:26,439 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:32:26,439 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:32:26,439 - INFO - -------------------------------
-2024-11-11 22:32:26,439 - INFO - --------------------------------
-2024-11-11 22:32:41,454 - INFO - Sent message to 192.168.218.179: 
-2024-11-11 22:32:41,454 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-11 22:32:41,454 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-11 22:32:41,454 - INFO - -------------------------------
-2024-11-11 22:32:41,454 - INFO - --------------------------------
-2024-11-12 13:03:23,990 - ERROR - Error sending message to 192.168.218.179: [Errno 101] Network is unreachable
-2024-11-12 13:03:23,990 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-12 13:03:23,990 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-12 13:03:23,990 - INFO - -------------------------------
-2024-11-12 13:03:23,990 - INFO - --------------------------------
-2024-11-12 13:03:39,019 - INFO - Sent message to 192.168.218.179: 
-2024-11-12 13:03:39,019 - INFO - Route announcement SENT TO ALL NEIGHBORS.
-2024-11-12 13:03:39,019 - INFO - ----ROUTING TABLE FOR: 192.168.218.27:
-2024-11-12 13:03:39,019 - INFO - -------------------------------
-2024-11-12 13:03:39,019 - INFO - --------------------------------
+2024-11-12 13:55:00,401 - INFO - Initial routing table created.
+2024-11-12 13:55:00,401 - INFO - Router initialized with IP: 192.168.1.39
+2024-11-12 13:55:00,401 - INFO - Neighbors: ['192.168.1.184']
+2024-11-12 13:55:00,401 - INFO - Sent message to 192.168.1.184: *192.168.1.39
+2024-11-12 13:55:00,401 - INFO - Router announcement sent to all neighbors.
+2024-11-12 13:55:00,402 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:55:00,402 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:55:00,402 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:55:00,402 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:55:01,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:02,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:03,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:04,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:05,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:06,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:06,982 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:55:06,982 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:55:06,982 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:55:06,982 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:55:07,983 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:08,984 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:09,985 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:10,986 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:11,987 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:12,988 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:13,989 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:14,990 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:15,416 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:55:15,416 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:55:15,417 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:55:15,417 - INFO - -------------------------------
+2024-11-12 13:55:15,417 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:55:15,417 - INFO - --------------------------------
+2024-11-12 13:55:15,991 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:16,992 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:17,993 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:18,994 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:19,995 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:20,995 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:21,983 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:55:21,983 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:55:21,983 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:55:21,983 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:55:22,984 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:23,985 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:24,986 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:25,987 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:26,988 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:27,989 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:28,990 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:29,992 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:30,432 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:55:30,432 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:55:30,432 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:55:30,432 - INFO - -------------------------------
+2024-11-12 13:55:30,432 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:55:30,432 - INFO - --------------------------------
+2024-11-12 13:55:30,993 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:31,994 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:32,995 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:33,997 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:34,369 - INFO - Sent message to 192.168.1.184: !192.168.1.39;192.168.1.184;oi;paunici
+2024-11-12 13:55:34,998 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:35,999 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:36,983 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:55:36,983 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:55:36,983 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:55:36,983 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:55:37,984 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:38,985 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:39,986 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:40,987 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:41,988 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:42,989 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:43,990 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:44,991 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:45,448 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:55:45,448 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:55:45,448 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:55:45,448 - INFO - -------------------------------
+2024-11-12 13:55:45,448 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:55:45,448 - INFO - --------------------------------
+2024-11-12 13:55:45,992 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:46,993 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:47,994 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:48,995 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:49,996 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:50,997 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:51,983 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:55:51,983 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:55:51,983 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:55:51,983 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:55:52,985 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:53,986 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:54,987 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:55,988 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:56,989 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:57,990 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:58,991 - INFO - Socket timeout, no message received.
+2024-11-12 13:55:59,992 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:00,463 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:56:00,463 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:56:00,463 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:56:00,463 - INFO - -------------------------------
+2024-11-12 13:56:00,463 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:56:00,463 - INFO - --------------------------------
+2024-11-12 13:56:00,993 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:01,396 - INFO - Received message from 192.168.1.184: *192.168.1.184
+2024-11-12 13:56:01,396 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:56:01,396 - INFO - Processing message: *192.168.1.184
+2024-11-12 13:56:01,396 - INFO - Processing router announcement from: 192.168.1.184
+2024-11-12 13:56:02,397 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:03,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:04,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:05,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:06,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:07,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:08,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:09,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:10,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:11,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:12,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:13,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:14,409 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:15,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:15,478 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:56:15,478 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:56:15,478 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:56:15,478 - INFO - -------------------------------
+2024-11-12 13:56:15,478 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:56:15,478 - INFO - --------------------------------
+2024-11-12 13:56:16,396 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:56:16,396 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:56:16,396 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:56:16,396 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:56:17,397 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:18,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:19,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:20,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:21,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:22,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:23,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:24,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:25,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:26,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:27,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:28,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:29,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:30,411 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:30,488 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:56:30,488 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:56:30,488 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:56:30,488 - INFO - -------------------------------
+2024-11-12 13:56:30,488 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:56:30,488 - INFO - --------------------------------
+2024-11-12 13:56:31,396 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:56:31,396 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:56:31,397 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:56:31,397 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:56:32,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:33,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:34,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:35,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:35,870 - INFO - Sent message to 192.168.1.184: !192.168.1.39;192.168.1.184;viado;cu
+2024-11-12 13:56:36,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:36,958 - INFO - Received message from 192.168.1.184: !192.168.1.184;192.168.1.39;oi ramiro
+2024-11-12 13:56:36,959 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:56:36,959 - INFO - Processing message: !192.168.1.184;192.168.1.39;oi ramiro
+2024-11-12 13:56:36,959 - INFO - Updated last update time for source IP: 192.168.1.184
+2024-11-12 13:56:37,960 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:38,961 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:39,963 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:40,964 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:41,965 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:42,966 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:43,967 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:44,968 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:45,503 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:56:45,503 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:56:45,504 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:56:45,504 - INFO - -------------------------------
+2024-11-12 13:56:45,504 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:56:45,504 - INFO - --------------------------------
+2024-11-12 13:56:45,969 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:46,397 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:56:46,397 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:56:46,397 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:56:46,397 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:56:47,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:48,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:49,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:50,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:51,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:52,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:53,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:54,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:55,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:56,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:57,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:58,409 - INFO - Socket timeout, no message received.
+2024-11-12 13:56:59,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:00,411 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:00,519 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:57:00,519 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:57:00,519 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:57:00,519 - INFO - -------------------------------
+2024-11-12 13:57:00,519 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:57:00,519 - INFO - --------------------------------
+2024-11-12 13:57:01,397 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:57:01,397 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:57:01,397 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:57:01,397 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:57:02,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:03,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:04,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:05,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:06,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:07,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:08,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:09,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:10,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:11,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:12,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:13,409 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:14,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:15,411 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:15,534 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:57:15,534 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:57:15,534 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:57:15,534 - INFO - -------------------------------
+2024-11-12 13:57:15,534 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:57:15,534 - INFO - --------------------------------
+2024-11-12 13:57:16,397 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:57:16,398 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:57:16,398 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:57:16,398 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:57:17,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:18,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:19,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:20,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:21,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:22,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:23,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:24,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:25,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:26,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:27,409 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:28,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:29,411 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:30,412 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:30,549 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:57:30,549 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:57:30,549 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:57:30,549 - INFO - -------------------------------
+2024-11-12 13:57:30,549 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:57:30,549 - INFO - --------------------------------
+2024-11-12 13:57:30,931 - INFO - Received message from 192.168.1.184: !192.168.1.184;192.168.1.39;VINICIUS ÉS UM GENIO COM J
+2024-11-12 13:57:30,931 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:57:30,931 - INFO - Processing message: !192.168.1.184;192.168.1.39;VINICIUS ÉS UM GENIO COM J
+2024-11-12 13:57:30,931 - INFO - Updated last update time for source IP: 192.168.1.184
+2024-11-12 13:57:31,398 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:57:31,398 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:57:31,398 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:57:31,398 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:57:32,398 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:33,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:34,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:35,402 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:36,403 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:37,404 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:38,405 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:39,406 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:40,407 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:41,408 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:42,409 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:43,410 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:44,411 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:45,412 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:45,564 - INFO - Sent message to 192.168.1.184: @192.168.1.184-1
+2024-11-12 13:57:45,564 - INFO - Route announcement SENT TO ALL NEIGHBORS.
+2024-11-12 13:57:45,564 - INFO - ----ROUTING TABLE FOR: 192.168.1.39:
+2024-11-12 13:57:45,564 - INFO - -------------------------------
+2024-11-12 13:57:45,564 - INFO - IP: 192.168.1.184, Metric: 1, Output: 192.168.1.184
+2024-11-12 13:57:45,564 - INFO - --------------------------------
+2024-11-12 13:57:46,398 - INFO - Received message from 192.168.1.184: @192.168.1.39-1
+2024-11-12 13:57:46,398 - INFO - Updated last update time for neighbor: 192.168.1.184
+2024-11-12 13:57:46,398 - INFO - Processing message: @192.168.1.39-1
+2024-11-12 13:57:46,398 - INFO - Updating routing table with message: @192.168.1.39-1
+2024-11-12 13:57:47,399 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:48,400 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:49,401 - INFO - Socket timeout, no message received.
+2024-11-12 13:57:50,402 - INFO - Socket timeout, no message received.
