@@ -101,21 +101,21 @@ class Router:
                         log_message(
                             f"Updated last update time for neighbor: {sender_ip}"
                         )
-                    self.process_message(data.decode())
+                    self.process_message(data.decode(), sender_ip)
                 except socket.timeout:
                     continue
                 except OSError as e:
                     log_message(f"Error receiving message: {e}", level="error")
 
-    def process_message(self, message):
+    def process_message(self, message, sender_ip):
         if message.startswith("!"):
             self.process_text_message(message)
         elif message.startswith("*"):
             self.process_router_announcement(message)
         else:
-            self.update_routing_table(message)
+            self.update_routing_table(message, sender_ip)
 
-    def update_routing_table(self, message):
+    def update_routing_table(self, message, sender_ip):
         log_message(f"Updating routing table with message: {message}")
         updated = False
         current_destinations = set()
@@ -133,7 +133,7 @@ class Router:
                 destination not in self.routing_table
                 or metric < self.routing_table[destination][0]
             ):
-                self.routing_table[destination] = (metric + 1, destination)
+                self.routing_table[destination] = (metric + 1, sender_ip)
                 updated = True
 
                 log_message("--------------------------------")
@@ -164,7 +164,6 @@ class Router:
     def send_text_message(self, destination_ip, message):
         text = f"!{self.ip};{destination_ip};{message}"
         next_router = self.routing_table.get(destination_ip, (None, None))[1]
-
         if next_router:
             self.send_message(next_router, text)
         else:
