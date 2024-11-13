@@ -103,13 +103,11 @@ class Router:
                         )
                     self.process_message(data.decode())
                 except socket.timeout:
-                    log_message("Socket timeout, no message received.")
                     continue
                 except OSError as e:
                     log_message(f"Error receiving message: {e}", level="error")
 
     def process_message(self, message):
-        log_message(f"Processing message: {message}")
         if message.startswith("!"):
             self.process_text_message(message)
         elif message.startswith("*"):
@@ -175,21 +173,24 @@ class Router:
     def process_text_message(self, message):
         parts = message[1:].split(";")
         source_ip = parts[0]
-        if source_ip in self.neighbors:
-            self.last_update[source_ip] = time.time()
-            log_message(f"Updated last update time for source IP: {source_ip}")
+        try:
+            if source_ip in self.neighbors:
+                self.last_update[source_ip] = time.time()
+                log_message(f"Updated last update time for source IP: {source_ip}")
 
-        destination_ip = parts[1]
-        text = parts[2]
+            destination_ip = parts[1]
+            text = parts[2]
 
-        if self.ip == destination_ip:
-            log_message(
-                f"MESSAGE RECEIVED FROM {source_ip} TO {destination_ip}: {text}",
-                level="warning",
-            )
-        else:
-            log_message(f"Forwarding message from {source_ip} to {destination_ip}")
-            self.send_text_message(destination_ip, text)
+            if self.ip == destination_ip:
+                log_message(
+                    f"MESSAGE RECEIVED FROM {source_ip} TO {destination_ip}: \n --------------- {text} --------------- \n",
+                    level="warning",
+                )
+            else:
+                log_message(f"Forwarding message from {source_ip} to {destination_ip}")
+                self.send_text_message(destination_ip, text)
+        except:
+            log_message(f"Error processing text message: {message}", level="error")
 
     def process_router_announcement(self, message):
         new_router_ip = message[1:]
